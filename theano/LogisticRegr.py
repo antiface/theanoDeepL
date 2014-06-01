@@ -7,6 +7,9 @@ by a weight matrix :math:`W` and a bias vector :math:`b`. Classification is
 done by projecting data points onto a set of hyperplanes, the distance to
 which is used to determine a class membership probability.
 
+(The following description is not correct because I changed this class to
+    output probability instead of discrete prediction for the CS 216 Img
+    Understanding Project.)
 Mathematically, this can be written as:
 
 .. math::
@@ -74,11 +77,11 @@ class LogisticRegression(object):
                                name='b', borrow=True)
 
         # compute vector of class-membership probabilities in symbolic form
-        self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
+        self.p_y_given_x = T.dot(input, self.W) + self.b #T.nnet.softmax(T.dot(input, self.W) + self.b)
 
         # compute prediction as class whose probability is maximal in
         # symbolic form
-        self.y_pred = T.argmax(self.p_y_given_x, axis=1)
+        self.y_pred = self.p_y_given_x # T.argmax(self.p_y_given_x, axis=1)
 
         # parameters of the model
         self.params = [self.W, self.b]
@@ -137,4 +140,4 @@ class LogisticRegression(object):
     def activate(self, inputs):
         #self.p_y_given_x = T.nnet.softmax(T.dot(inputs, self.W) + self.b)
         #self.y_pred=T.argmax(self.p_y_given_x, axis=1)
-        return T.nnet.softmax(T.dot(inputs, self.W) + self.b)
+        return T.dot(inputs, self.W) + self.b #T.nnet.softmax(T.dot(inputs, self.W) + self.b)
