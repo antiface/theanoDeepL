@@ -78,7 +78,7 @@ class HiddenLayer(object):
             W = theano.shared(value=W_values, name='W', borrow=True)
 
         if b is None:
-            b_values = numpy.zeros((n_out,), dtype=theano.config.floatX)
+            b_values = numpy.zeros((500,n_out), dtype=theano.config.floatX)
             b = theano.shared(value=b_values, name='b', borrow=True)
 
         self.W = W
@@ -136,7 +136,7 @@ class MLP(object):
 
         # symbolic variables for data
         self.X=self.hiddenLayers[0].input # training data
-        self.y=T.bvector('y') # labels for training data
+        self.y=T.bmatrix('y') # labels for training data. Since now the problem we're trying to solve (CS 216 Project) is multilabel classification, so can't use bvector)
 
         # L1 norm ; one regularization option is to enforce L1 norm to be small
         self.L1 = abs(self.logRegressionLayer.W).sum()
